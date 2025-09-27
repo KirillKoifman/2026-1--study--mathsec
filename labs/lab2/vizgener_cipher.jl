@@ -25,7 +25,6 @@ function create_shifted_matrix_detailed()
     return matrix
 end
 
-
 print("\nEnter password(without repeating symbols): ")
 password::String = "математика"
 println("Entered password: $(password)")
@@ -58,7 +57,6 @@ function encrypt()
         #println()
     end
 
-    
     encrypted_message::String = ""
     for index in 1:length(openMessage_chars)
         horizontal_alphabet_symbol = password_message_char_matrix[1, index]
@@ -80,16 +78,6 @@ function encrypt()
         #print("$(shifted_matrix[encrypting_string_symbol_index, encrypting_column_symbol_index]) ")
     end
     encrypted_message_chars = collect(encrypted_message)
-
-
-    # for i in 1:length(shifted_matrix)
-    #     print("$(shifted_matrix[i])  ")
-    #     if i % length(alphabet) == 0 
-    #         println()
-    #     end
-    # end
-    # println(openMessage_chars)
-    # println(encrypted_message_chars)
 
     return encrypted_message_chars
 end
@@ -126,5 +114,5 @@ end
 encryptedMessage = encrypt()
 println("\nEncrypted message: $(encryptedMessage)")
 
-decrypted_message = decrypt(encryptedMessage)
+decryptedMessage = decrypt(encryptedMessage)
 println("\nDecrypted message: $(decryptedMessage)")
