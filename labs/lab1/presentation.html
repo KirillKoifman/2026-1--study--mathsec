@@ -1,0 +1,162 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><hr>
+<p>marp: true
+title: Marp
+paginate: true</p>
+<h2 id="backgroundcolor-grey">backgroundColor: grey</h2>
+<h2 id="-1">Лабораторная работа №1</h2>
+<h3 id="-">Шифры простой замены</h3>
+<p><br/>
+дисциплина:  Математические основы защиты информации и информационной безопасности</p>
+<p>Студент: Койфман Кирилл Дмитриевич
+Группа: НФИмд-01-25</p>
+<hr>
+<p><strong>Цель работы</strong>
+Получение практических навыков реализации алгоритмов, применяющих метод простой замены.</p>
+<p><strong>Задачи</strong></p>
+<ol>
+<li><p>Реализовать алгоритм шифрования Цезаря с произвольным ключом k</p>
+</li>
+<li><p>Реализовать алгоритм шифрования Атбаш</p>
+</li>
+</ol>
+<hr>
+<h2 id="1-">1 задание</h2>
+<p>Для решения задач данной работы - реализации 2-х алгоритмом шифрования применялся язык Julia:</p>
+<pre><code><span class="hljs-keyword">function</span> findMessageSymbolPosition(symbol<span class="hljs-type">::</span><span class="hljs-built_in">Char</span>, chars<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Char</span>})
+    <span class="hljs-keyword">for</span> char_index <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:length(chars)
+        <span class="hljs-comment">#print("$(chars[char_index])?=$(symbol)\n")</span>
+        <span class="hljs-keyword">if</span> chars[char_index] == symbol
+            <span class="hljs-keyword">return</span> char_index
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">function</span> encrypt()
+    println(<span class="hljs-string">"----ENCRYPTING----"</span>)
+    encryptedMessage<span class="hljs-type">::</span><span class="hljs-built_in">String</span> = <span class="hljs-string">""</span>
+    <span class="hljs-keyword">for</span> symbol <span class="hljs-keyword">in</span> openMessage
+        pos = findMessageSymbolPosition(symbol, alphabet_chars)
+        print(<span class="hljs-string">"<span class="hljs-subst">$(symbol)</span> - position: <span class="hljs-subst">$(pos - <span class="hljs-number">1</span>)</span>"</span>)
+
+        encrypted_pos = (pos - <span class="hljs-number">1</span> + key) % length(alphabet_chars)
+        encrypted_symbol = alphabet_chars[encrypted_pos+<span class="hljs-number">1</span>]
+        encryptedMessage *= encrypted_symbol
+        println(<span class="hljs-string">"------&gt; <span class="hljs-subst">$(encrypted_symbol)</span> - position: <span class="hljs-subst">$(findMessageSymbolPosition(encrypted_symbol, alphabet_chars)</span> - 1)"</span>)
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> encryptedMessage
+<span class="hljs-keyword">end</span>
+</code></pre><hr>
+<h2 id="1-">1 задание</h2>
+<pre><code>Cesar cipher's work demonstration
+<span class="hljs-comment">--------------------------------------</span>
+[!!!]Please, follow the instructions!
+
+Used alphabet(<span class="hljs-keyword">use</span> symbols <span class="hljs-keyword">ONLY</span> <span class="hljs-keyword">from</span> the defined alphabet): 
+а[<span class="hljs-number">1072</span>]{<span class="hljs-number">0</span>} б[<span class="hljs-number">1073</span>]{<span class="hljs-number">1</span>} в[<span class="hljs-number">1074</span>]{<span class="hljs-number">2</span>} г[<span class="hljs-number">1075</span>]{<span class="hljs-number">3</span>} д[<span class="hljs-number">1076</span>]{<span class="hljs-number">4</span>} е[<span class="hljs-number">1077</span>]{<span class="hljs-number">5</span>} ж[<span class="hljs-number">1078</span>]{<span class="hljs-number">6</span>} з[<span class="hljs-number">1079</span>]{<span class="hljs-number">7</span>} и[<span class="hljs-number">1080</span>]{<span class="hljs-number">8</span>} й[<span class="hljs-number">1081</span>]{<span class="hljs-number">9</span>} 
+к[<span class="hljs-number">1082</span>]{<span class="hljs-number">10</span>} л[<span class="hljs-number">1083</span>]{<span class="hljs-number">11</span>} м[<span class="hljs-number">1084</span>]{<span class="hljs-number">12</span>} н[<span class="hljs-number">1085</span>]{<span class="hljs-number">13</span>} о[<span class="hljs-number">1086</span>]{<span class="hljs-number">14</span>} п[<span class="hljs-number">1087</span>]{<span class="hljs-number">15</span>} р[<span class="hljs-number">1088</span>]{<span class="hljs-number">16</span>} с[<span class="hljs-number">1089</span>]{<span class="hljs-number">17</span>} т[<span class="hljs-number">1090</span>]{<span class="hljs-number">18</span>} у[<span class="hljs-number">1091</span>]{<span class="hljs-number">19</span>} 
+ф[<span class="hljs-number">1092</span>]{<span class="hljs-number">20</span>} х[<span class="hljs-number">1093</span>]{<span class="hljs-number">21</span>} ц[<span class="hljs-number">1094</span>]{<span class="hljs-number">22</span>} ч[<span class="hljs-number">1095</span>]{<span class="hljs-number">23</span>} ш[<span class="hljs-number">1096</span>]{<span class="hljs-number">24</span>} щ[<span class="hljs-number">1097</span>]{<span class="hljs-number">25</span>} ъ[<span class="hljs-number">1098</span>]{<span class="hljs-number">26</span>} ы[<span class="hljs-number">1099</span>]{<span class="hljs-number">27</span>} ь[<span class="hljs-number">1100</span>]{<span class="hljs-number">28</span>} э[<span class="hljs-number">1101</span>]{<span class="hljs-number">29</span>} 
+ю[<span class="hljs-number">1102</span>]{<span class="hljs-number">30</span>} я[<span class="hljs-number">1103</span>]{<span class="hljs-number">31</span>}  [<span class="hljs-number">32</span>]{<span class="hljs-number">32</span>} 
+Enter <span class="hljs-keyword">key</span>: Entered <span class="hljs-keyword">key</span>: <span class="hljs-number">5</span>
+
+Enter <span class="hljs-keyword">password</span>(<span class="hljs-keyword">without</span> repeating symbols): Entered <span class="hljs-keyword">password</span>: пароль
+
+Enter <span class="hljs-keyword">open</span> message: Entered <span class="hljs-keyword">open</span> message: этаглавауспешнозавершена
+<span class="hljs-comment">----ENCRYPTING----</span>
+э - <span class="hljs-keyword">position</span>: <span class="hljs-number">29</span><span class="hljs-comment">------&gt; б - position: 1</span>
+т - <span class="hljs-keyword">position</span>: <span class="hljs-number">18</span><span class="hljs-comment">------&gt; ч - position: 23</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt; е - position: 5</span>
+г - <span class="hljs-keyword">position</span>: <span class="hljs-number">3</span><span class="hljs-comment">------&gt; и - position: 8</span>
+л - <span class="hljs-keyword">position</span>: <span class="hljs-number">11</span><span class="hljs-comment">------&gt; р - position: 16</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt; е - position: 5</span>
+в - <span class="hljs-keyword">position</span>: <span class="hljs-number">2</span><span class="hljs-comment">------&gt; з - position: 7</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt; е - position: 5</span>
+у - <span class="hljs-keyword">position</span>: <span class="hljs-number">19</span><span class="hljs-comment">------&gt; ш - position: 24</span>
+с - <span class="hljs-keyword">position</span>: <span class="hljs-number">17</span><span class="hljs-comment">------&gt; ц - position: 22</span>
+п - <span class="hljs-keyword">position</span>: <span class="hljs-number">15</span><span class="hljs-comment">------&gt; ф - position: 20</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; к - position: 10</span>
+ш - <span class="hljs-keyword">position</span>: <span class="hljs-number">24</span><span class="hljs-comment">------&gt; э - position: 29</span>
+н - <span class="hljs-keyword">position</span>: <span class="hljs-number">13</span><span class="hljs-comment">------&gt; т - position: 18</span>
+о - <span class="hljs-keyword">position</span>: <span class="hljs-number">14</span><span class="hljs-comment">------&gt; у - position: 19</span>
+з - <span class="hljs-keyword">position</span>: <span class="hljs-number">7</span><span class="hljs-comment">------&gt; м - position: 12</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt; е - position: 5</span>
+в - <span class="hljs-keyword">position</span>: <span class="hljs-number">2</span><span class="hljs-comment">------&gt; з - position: 7</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; к - position: 10</span>
+р - <span class="hljs-keyword">position</span>: <span class="hljs-number">16</span><span class="hljs-comment">------&gt; х - position: 21</span>
+ш - <span class="hljs-keyword">position</span>: <span class="hljs-number">24</span><span class="hljs-comment">------&gt; э - position: 29</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; к - position: 10</span>
+н - <span class="hljs-keyword">position</span>: <span class="hljs-number">13</span><span class="hljs-comment">------&gt; т - position: 18</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt; е - position: 5</span>
+
+Encrypted message: бчеирезешцфкэтумезкхэкте
+</code></pre><hr>
+<h2 id="2-">2 задание</h2>
+<pre><code><span class="hljs-keyword">function</span> findMessageSymbolPosition(symbol<span class="hljs-type">::</span><span class="hljs-built_in">Char</span>, alphabet_chars<span class="hljs-type">::</span><span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Char</span>})
+    <span class="hljs-keyword">for</span> char_index <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:length(alphabet_chars)
+        <span class="hljs-keyword">if</span> alphabet_chars[char_index] == symbol
+            <span class="hljs-keyword">return</span> char_index
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+
+<span class="hljs-keyword">function</span> encrypt()
+    println(<span class="hljs-string">"----ENCRYPTING----"</span>)
+
+    encryptedMessage<span class="hljs-type">::</span><span class="hljs-built_in">String</span> = <span class="hljs-string">""</span>
+    <span class="hljs-keyword">for</span> symbol <span class="hljs-keyword">in</span> openMessage
+        pos = findMessageSymbolPosition(symbol, alphabet_chars)
+        print(<span class="hljs-string">"<span class="hljs-subst">$(symbol)</span> - position: <span class="hljs-subst">$(pos - <span class="hljs-number">1</span>)</span>"</span>)
+
+        encrypted_pos = (pos - <span class="hljs-number">1</span> + key) % length(alphabet_chars)
+        encrypted_symbol = alphabet_chars[encrypted_pos + <span class="hljs-number">1</span>]
+        encryptedMessage *= encrypted_symbol
+        println(<span class="hljs-string">"------&gt; <span class="hljs-subst">$(encrypted_symbol)</span> - position: <span class="hljs-subst">$(findMessageSymbolPosition(encrypted_symbol, alphabet_chars)</span> - 1)"</span>)
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> encryptedMessage
+<span class="hljs-keyword">end</span>
+</code></pre><hr>
+<h2 id="2-">2 задание</h2>
+<pre><code>Atbash cipher's work demonstration
+<span class="hljs-comment">--------------------------------------</span>
+[!!!]Please, follow the instructions!
+
+Used alphabet(<span class="hljs-keyword">use</span> symbols <span class="hljs-keyword">ONLY</span> <span class="hljs-keyword">from</span> the defined alphabet): 
+а[<span class="hljs-number">1072</span>]{<span class="hljs-number">0</span>} б[<span class="hljs-number">1073</span>]{<span class="hljs-number">1</span>} в[<span class="hljs-number">1074</span>]{<span class="hljs-number">2</span>} г[<span class="hljs-number">1075</span>]{<span class="hljs-number">3</span>} д[<span class="hljs-number">1076</span>]{<span class="hljs-number">4</span>} е[<span class="hljs-number">1077</span>]{<span class="hljs-number">5</span>} ж[<span class="hljs-number">1078</span>]{<span class="hljs-number">6</span>} з[<span class="hljs-number">1079</span>]{<span class="hljs-number">7</span>} и[<span class="hljs-number">1080</span>]{<span class="hljs-number">8</span>} й[<span class="hljs-number">1081</span>]{<span class="hljs-number">9</span>} 
+к[<span class="hljs-number">1082</span>]{<span class="hljs-number">10</span>} л[<span class="hljs-number">1083</span>]{<span class="hljs-number">11</span>} м[<span class="hljs-number">1084</span>]{<span class="hljs-number">12</span>} н[<span class="hljs-number">1085</span>]{<span class="hljs-number">13</span>} о[<span class="hljs-number">1086</span>]{<span class="hljs-number">14</span>} п[<span class="hljs-number">1087</span>]{<span class="hljs-number">15</span>} р[<span class="hljs-number">1088</span>]{<span class="hljs-number">16</span>} с[<span class="hljs-number">1089</span>]{<span class="hljs-number">17</span>} т[<span class="hljs-number">1090</span>]{<span class="hljs-number">18</span>} у[<span class="hljs-number">1091</span>]{<span class="hljs-number">19</span>} 
+ф[<span class="hljs-number">1092</span>]{<span class="hljs-number">20</span>} х[<span class="hljs-number">1093</span>]{<span class="hljs-number">21</span>} ц[<span class="hljs-number">1094</span>]{<span class="hljs-number">22</span>} ч[<span class="hljs-number">1095</span>]{<span class="hljs-number">23</span>} ш[<span class="hljs-number">1096</span>]{<span class="hljs-number">24</span>} щ[<span class="hljs-number">1097</span>]{<span class="hljs-number">25</span>} ъ[<span class="hljs-number">1098</span>]{<span class="hljs-number">26</span>} ы[<span class="hljs-number">1099</span>]{<span class="hljs-number">27</span>} ь[<span class="hljs-number">1100</span>]{<span class="hljs-number">28</span>} э[<span class="hljs-number">1101</span>]{<span class="hljs-number">29</span>} 
+ю[<span class="hljs-number">1102</span>]{<span class="hljs-number">30</span>} я[<span class="hljs-number">1103</span>]{<span class="hljs-number">31</span>}  [<span class="hljs-number">32</span>]{<span class="hljs-number">32</span>} 
+Enter <span class="hljs-keyword">key</span>: Entered <span class="hljs-keyword">key</span>: <span class="hljs-number">32</span>
+
+Enter <span class="hljs-keyword">open</span> message: Entered <span class="hljs-keyword">open</span> message: этаглавауспешнозавершена
+<span class="hljs-comment">----ENCRYPTING----</span>
+э - <span class="hljs-keyword">position</span>: <span class="hljs-number">29</span><span class="hljs-comment">------&gt; ь - position: 28</span>
+т - <span class="hljs-keyword">position</span>: <span class="hljs-number">18</span><span class="hljs-comment">------&gt; с - position: 17</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt;   - position: 32</span>
+г - <span class="hljs-keyword">position</span>: <span class="hljs-number">3</span><span class="hljs-comment">------&gt; в - position: 2</span>
+л - <span class="hljs-keyword">position</span>: <span class="hljs-number">11</span><span class="hljs-comment">------&gt; к - position: 10</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt;   - position: 32</span>
+в - <span class="hljs-keyword">position</span>: <span class="hljs-number">2</span><span class="hljs-comment">------&gt; б - position: 1</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt;   - position: 32</span>
+у - <span class="hljs-keyword">position</span>: <span class="hljs-number">19</span><span class="hljs-comment">------&gt; т - position: 18</span>
+с - <span class="hljs-keyword">position</span>: <span class="hljs-number">17</span><span class="hljs-comment">------&gt; р - position: 16</span>
+п - <span class="hljs-keyword">position</span>: <span class="hljs-number">15</span><span class="hljs-comment">------&gt; о - position: 14</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; д - position: 4</span>
+ш - <span class="hljs-keyword">position</span>: <span class="hljs-number">24</span><span class="hljs-comment">------&gt; ч - position: 23</span>
+н - <span class="hljs-keyword">position</span>: <span class="hljs-number">13</span><span class="hljs-comment">------&gt; м - position: 12</span>
+о - <span class="hljs-keyword">position</span>: <span class="hljs-number">14</span><span class="hljs-comment">------&gt; н - position: 13</span>
+з - <span class="hljs-keyword">position</span>: <span class="hljs-number">7</span><span class="hljs-comment">------&gt; ж - position: 6</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt;   - position: 32</span>
+в - <span class="hljs-keyword">position</span>: <span class="hljs-number">2</span><span class="hljs-comment">------&gt; б - position: 1</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; д - position: 4</span>
+р - <span class="hljs-keyword">position</span>: <span class="hljs-number">16</span><span class="hljs-comment">------&gt; п - position: 15</span>
+ш - <span class="hljs-keyword">position</span>: <span class="hljs-number">24</span><span class="hljs-comment">------&gt; ч - position: 23</span>
+е - <span class="hljs-keyword">position</span>: <span class="hljs-number">5</span><span class="hljs-comment">------&gt; д - position: 4</span>
+н - <span class="hljs-keyword">position</span>: <span class="hljs-number">13</span><span class="hljs-comment">------&gt; м - position: 12</span>
+а - <span class="hljs-keyword">position</span>: <span class="hljs-number">0</span><span class="hljs-comment">------&gt;   - position: 32</span>
+</code></pre><hr>
+<h2 id="-">Спасибо за внимание!</h2>
+</body></html>
