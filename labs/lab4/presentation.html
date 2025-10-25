@@ -1,0 +1,239 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><hr>
+<p>marp: true
+title: Marp
+paginate: true</p>
+<h2 id="backgroundcolor-7c7b7bff">backgroundColor: #7c7b7bff</h2>
+<h2 id="-4">Лабораторная работа №4</h2>
+<h3 id="-">Вычисление наибольшего общего делителя</h3>
+<p><br/>
+дисциплина:  Математические основы защиты информации и информационной безопасности</p>
+<p>Студент: Койфман Кирилл Дмитриевич
+Группа: НФИмд-01-25</p>
+<hr>
+<p><strong>Цель работы</strong>
+Получение практических навыков реализации алгоритмов, вычисляющих наибольший общий делитель (НОД).</p>
+<p><strong>Задачи</strong></p>
+<ol>
+<li>Реализовать алгоритм Евклида, бинарный алгоритм Евклида, расширенный алгоритм Евклида, расширенный бинарный алгоритм Евклида.</li>
+</ol>
+<hr>
+<h2 id="1-">1 задание</h2>
+<p>Для решения задачи данной работы была написана программа на C++, реализующая описанные в работе алгоритмы:</p>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">algorithmEuclid</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
+</span>{
+    <span class="hljs-comment">//d=НОД(a, b)</span>
+    <span class="hljs-keyword">int</span> d = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> gamma_prev = a;
+    <span class="hljs-keyword">int</span> gamma_curr = b;
+    <span class="hljs-keyword">int</span> gamma_next = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+    {
+        <span class="hljs-keyword">int</span> remainder = gamma_prev % gamma_curr;
+        gamma_next = remainder;
+        <span class="hljs-keyword">if</span> (gamma_next == <span class="hljs-number">0</span>)
+        {
+            d = gamma_curr;
+            <span class="hljs-keyword">break</span>;
+        }
+        <span class="hljs-keyword">else</span>
+        {
+            gamma_prev = gamma_curr;
+            gamma_curr = gamma_next;
+        }
+    }
+    <span class="hljs-keyword">return</span> d;
+}
+</code></pre>
+<hr>
+<h2 id="1-">1 задание</h2>
+<pre><code class="lang-cpp">int binaryAlgorithmEuclid(int a, int b)
+{
+    <span class="hljs-comment">//d=НОД(a, b)</span>
+    int d = <span class="hljs-number">0</span>;
+    int g = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">//until one in pair (a or b) becomes odd</span>
+    while (a % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &amp;&amp; b % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+    {
+        a = a / <span class="hljs-number">2</span>;
+        b = b / <span class="hljs-number">2</span>;
+        g = <span class="hljs-number">2</span> * g;
+    }
+    int u = a;
+    int v = b;
+    while (u != <span class="hljs-number">0</span>)
+    {
+        if (u % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) u = u / <span class="hljs-number">2</span>;
+        if (v % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>) v = v / <span class="hljs-number">2</span>;
+        if (u &gt;= v) u = u - v;
+        else v = v - u;
+    }
+    d = g * v;
+    return d;
+}
+</code></pre>
+<hr>
+<h2 id="1-">1 задание</h2>
+<pre><code class="lang-cpp"><span class="hljs-function">EuclidAlgoVars <span class="hljs-title">extendedAlgorithmEuclid</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span>
+</span>{
+    <span class="hljs-comment">//a * x + b * y = d</span>
+    <span class="hljs-keyword">int</span> d = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> y = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//gamma_0{i-1}</span>
+    <span class="hljs-keyword">int</span> gamma_prev = a;
+    <span class="hljs-comment">//gamma_1{i}</span>
+    <span class="hljs-keyword">int</span> gamma_curr = b;
+    <span class="hljs-comment">//gamma_{i+1}</span>
+    <span class="hljs-keyword">int</span> gamma_next = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//x_0{i-1}</span>
+    <span class="hljs-keyword">int</span> x_prev = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">//x_1{i}</span>
+    <span class="hljs-keyword">int</span> x_curr = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//x_{i+1}</span>
+    <span class="hljs-keyword">int</span> x_next = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//y_0{i-1}</span>
+    <span class="hljs-keyword">int</span> y_prev = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//y_1{i}</span>
+    <span class="hljs-keyword">int</span> y_curr = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">//y_{i+1}</span>
+    <span class="hljs-keyword">int</span> y_next = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+    {
+        <span class="hljs-keyword">int</span> remainder = gamma_prev / gamma_curr;
+        <span class="hljs-keyword">int</span> q_curr = remainder;
+        <span class="hljs-comment">//gamma_{i+1} = gamma_{i-1} - q_i * gamma_i</span>
+        gamma_next = gamma_prev - q_curr * gamma_curr;
+        <span class="hljs-keyword">if</span> (gamma_next == <span class="hljs-number">0</span>)
+        {
+            d = gamma_curr;
+            x = x_curr;
+            y = y_curr;
+            <span class="hljs-keyword">break</span>;
+        }
+        <span class="hljs-keyword">else</span>
+        {
+            x_next = x_prev - q_curr * x_curr;
+            y_next = y_prev - q_curr * y_curr;
+            gamma_prev = gamma_curr;
+            gamma_curr = gamma_next;
+            x_prev = x_curr;
+            x_curr = x_next;
+            y_prev = y_curr;
+            y_curr = y_next;
+        }
+    }
+    <span class="hljs-keyword">return</span> EuclidAlgoVars{ d,x,y };
+}
+</code></pre>
+<hr>
+<h2 id="1-">1 задание</h2>
+<pre><code class="lang-cpp">EuclidAlgoVars binaryExtendedAlgorithmEuclid(int a, int b)
+{
+    //a * x + b * <span class="hljs-attr">y</span> = d
+    int <span class="hljs-attr">d</span> = <span class="hljs-number">0</span>;
+    int <span class="hljs-attr">x</span> = <span class="hljs-number">0</span>;
+    int <span class="hljs-attr">y</span> = <span class="hljs-number">0</span>;
+    int <span class="hljs-attr">g</span> = <span class="hljs-number">1</span>;
+    //until one <span class="hljs-keyword">in</span> pair (a <span class="hljs-literal">or</span> b) becomes odd
+    while (a % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &amp;&amp; b % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+    {
+        <span class="hljs-attr">a</span> = a / <span class="hljs-number">2</span>;
+        <span class="hljs-attr">b</span> = b / <span class="hljs-number">2</span>;
+        <span class="hljs-attr">g</span> = <span class="hljs-number">2</span> * g;
+    }
+    int <span class="hljs-attr">u</span> = a;
+    int <span class="hljs-attr">v</span> = b;
+    int <span class="hljs-attr">A</span> = <span class="hljs-number">1</span>;
+    int <span class="hljs-attr">B</span> = <span class="hljs-number">0</span>;
+    int <span class="hljs-attr">C</span> = <span class="hljs-number">0</span>;
+    int <span class="hljs-attr">D</span> = <span class="hljs-number">1</span>;
+    while (u != <span class="hljs-number">0</span>)
+    {
+        <span class="hljs-keyword">if</span> (u % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+        {
+            <span class="hljs-attr">u</span> = u / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span> (A % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &amp;&amp; B % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+            {
+                <span class="hljs-attr">A</span> = A / <span class="hljs-number">2</span>;
+                <span class="hljs-attr">B</span> = B / <span class="hljs-number">2</span>;
+            }
+            <span class="hljs-keyword">else</span>
+            {
+                <span class="hljs-attr">A</span> = (A + b) / <span class="hljs-number">2</span>;
+                <span class="hljs-attr">B</span> = (B - a) / <span class="hljs-number">2</span>;
+            }
+        }
+        <span class="hljs-keyword">if</span> (v % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+        {
+            <span class="hljs-attr">v</span> = v / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span> (C % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &amp;&amp; D % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)
+            {
+                <span class="hljs-attr">C</span> = C / <span class="hljs-number">2</span>;
+                <span class="hljs-attr">D</span> = D / <span class="hljs-number">2</span>;
+            }
+            <span class="hljs-keyword">else</span>
+            {
+                <span class="hljs-attr">C</span> = (C + b) / <span class="hljs-number">2</span>;
+                <span class="hljs-attr">D</span> = (D - a) / <span class="hljs-number">2</span>;
+            }
+        }
+        <span class="hljs-keyword">if</span> (u &gt;= v)
+        {
+            <span class="hljs-attr">u</span> = u - v;
+            <span class="hljs-attr">A</span> = A - C;
+            <span class="hljs-attr">B</span> = B - D;
+        }
+        <span class="hljs-keyword">else</span>
+        {
+            <span class="hljs-attr">v</span> = v - u;
+            <span class="hljs-attr">C</span> = C - A;
+            <span class="hljs-attr">D</span> = D - B;
+        }
+    }
+    <span class="hljs-attr">d</span> = g * v;
+    <span class="hljs-attr">x</span> = C;
+    <span class="hljs-attr">y</span> = D;
+    return EuclidAlgoVars{ d,x,y };
+}
+</code></pre>
+<hr>
+<h2 id="1-">1 задание</h2>
+<p>И протестируем работу этих алгоритмов:</p>
+<pre><code>--------------------------Testing GCD-algorithms--------------------------
+TEST-<span class="hljs-number">1</span>: <span class="hljs-attr">a</span> = <span class="hljs-number">14</span>, <span class="hljs-attr">b</span> = <span class="hljs-number">21</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=14,</span> <span class="hljs-attr">b=21}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">1</span>]Euclid Algorithm: <span class="hljs-number">7</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=14,</span> <span class="hljs-attr">b=21}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">2</span>]Binary Euclid Algorithm: <span class="hljs-number">7</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=14,</span> <span class="hljs-attr">b=21}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">3</span>]Extended Euclid Algorithm: <span class="hljs-number">7</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">7</span>, <span class="hljs-attr">x</span> = -<span class="hljs-number">1</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">1</span>:
+<span class="hljs-number">14</span> * -<span class="hljs-number">1</span> + <span class="hljs-number">21</span> * <span class="hljs-number">1</span> = <span class="hljs-number">7</span>(<span class="hljs-literal">true</span>)
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=14,</span> <span class="hljs-attr">b=21}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">4</span>]Binary Extended Euclid Algorithm: <span class="hljs-number">7</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">7</span>, <span class="hljs-attr">x</span> = -<span class="hljs-number">10</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">7</span>:
+<span class="hljs-number">14</span> * -<span class="hljs-number">10</span> + <span class="hljs-number">21</span> * <span class="hljs-number">7</span> = <span class="hljs-number">7</span>(<span class="hljs-literal">true</span>)
+
+TEST-<span class="hljs-number">2</span>: <span class="hljs-attr">a</span> = <span class="hljs-number">48</span>, <span class="hljs-attr">b</span> = <span class="hljs-number">36</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=48,</span> <span class="hljs-attr">b=36}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">1</span>]Euclid Algorithm: <span class="hljs-number">12</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=48,</span> <span class="hljs-attr">b=36}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">2</span>]Binary Euclid Algorithm: <span class="hljs-number">12</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=48,</span> <span class="hljs-attr">b=36}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">3</span>]Extended Euclid Algorithm: <span class="hljs-number">12</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">12</span>, <span class="hljs-attr">x</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">y</span> = -<span class="hljs-number">1</span>:
+<span class="hljs-number">48</span> * <span class="hljs-number">1</span> + <span class="hljs-number">36</span> * <span class="hljs-attr">-1</span> = <span class="hljs-number">12</span>(<span class="hljs-literal">true</span>)
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=48,</span> <span class="hljs-attr">b=36}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">4</span>]Binary Extended Euclid Algorithm: <span class="hljs-number">12</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">12</span>, <span class="hljs-attr">x</span> = -<span class="hljs-number">5</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">7</span>:
+<span class="hljs-number">48</span> * -<span class="hljs-number">5</span> + <span class="hljs-number">36</span> * <span class="hljs-number">7</span> = <span class="hljs-number">12</span>(<span class="hljs-literal">true</span>)
+
+TEST-<span class="hljs-number">3</span>: <span class="hljs-attr">a</span> = <span class="hljs-number">17</span>, <span class="hljs-attr">b</span> = <span class="hljs-number">51</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=17,</span> <span class="hljs-attr">b=51}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">1</span>]Euclid Algorithm: <span class="hljs-number">17</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=17,</span> <span class="hljs-attr">b=51}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">2</span>]Binary Euclid Algorithm: <span class="hljs-number">17</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=17,</span> <span class="hljs-attr">b=51}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">3</span>]Extended Euclid Algorithm: <span class="hljs-number">17</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">17</span>, <span class="hljs-attr">x</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">0</span>:
+<span class="hljs-number">17</span> * <span class="hljs-number">1</span> + <span class="hljs-number">51</span> * <span class="hljs-number">0</span> = <span class="hljs-number">17</span>(<span class="hljs-literal">true</span>)
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=17,</span> <span class="hljs-attr">b=51}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">4</span>]Binary Extended Euclid Algorithm: <span class="hljs-number">17</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">17</span>, <span class="hljs-attr">x</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">0</span>:
+<span class="hljs-number">17</span> * <span class="hljs-number">1</span> + <span class="hljs-number">51</span> * <span class="hljs-number">0</span> = <span class="hljs-number">17</span>(<span class="hljs-literal">true</span>)
+
+TEST-<span class="hljs-number">4</span>: <span class="hljs-attr">a</span> = <span class="hljs-number">75</span>, <span class="hljs-attr">b</span> = <span class="hljs-number">250</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=75,</span> <span class="hljs-attr">b=250}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">1</span>]Euclid Algorithm: <span class="hljs-number">25</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=75,</span> <span class="hljs-attr">b=250}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">2</span>]Binary Euclid Algorithm: <span class="hljs-number">25</span>
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=75,</span> <span class="hljs-attr">b=250}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">3</span>]Extended Euclid Algorithm: <span class="hljs-number">25</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">25</span>, <span class="hljs-attr">x</span> = -<span class="hljs-number">3</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">1</span>:
+<span class="hljs-number">75</span> * -<span class="hljs-number">3</span> + <span class="hljs-number">250</span> * <span class="hljs-number">1</span> = <span class="hljs-number">25</span>(<span class="hljs-literal">true</span>)
+Great Common Divisor(GCD) for pair{<span class="hljs-attr">a=75,</span> <span class="hljs-attr">b=250}</span> <span class="hljs-keyword">with</span> [<span class="hljs-number">4</span>]Binary Extended Euclid Algorithm: <span class="hljs-number">25</span> <span class="hljs-keyword">with</span> condition that a * x + b * <span class="hljs-attr">y</span> = d, <span class="hljs-attr">d</span> = <span class="hljs-number">25</span>, <span class="hljs-attr">x</span> = -<span class="hljs-number">93</span>, <span class="hljs-attr">y</span> = <span class="hljs-number">28</span>:
+<span class="hljs-number">75</span> * -<span class="hljs-number">93</span> + <span class="hljs-number">250</span> * <span class="hljs-number">28</span> = <span class="hljs-number">25</span>(<span class="hljs-literal">true</span>)
+</code></pre><hr>
+<h2 id="-">Спасибо за внимание!</h2>
+</body></html>
